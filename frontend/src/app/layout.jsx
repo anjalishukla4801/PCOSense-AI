@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
@@ -8,7 +7,7 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "PCOSense AI | Your Women's Health Companion",
   description: "Early awareness, guidance, and personalized support for women affected by PCOS.",
   icons: {
@@ -16,11 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>

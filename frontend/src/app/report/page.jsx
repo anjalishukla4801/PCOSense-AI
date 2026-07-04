@@ -4,9 +4,9 @@ import { useState } from "react";
 import { UploadCloud, FileText, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 export default function ReportAnalyzer() {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
-  const [result, setResult] = useState<{ hormones: Array<{name: string, value: string, status: string, desc: string}>, summary: string } | null>(null);
+  const [result, setResult] = useState(null);
 
   const handleUpload = async () => {
     if (!file) return;
@@ -16,13 +16,10 @@ export default function ReportAnalyzer() {
       const formData = new FormData();
       formData.append("file", file);
       
-      const response = await fetch(
-        "http://localhost:8001/api/analyze-report",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch("http://localhost:8001/api/analyze-report", {
+        method: "POST",
+        body: formData,
+      });
       
       if (!response.ok) {
         throw new Error("Invalid response from server");
@@ -48,7 +45,7 @@ export default function ReportAnalyzer() {
   };
 
   return (
-    <div className="flex-1 p-8 pt-8 max-w-5xl mx-auto w-full">
+    <div className="flex-1 p-8 pt-32 max-w-5xl mx-auto w-full">
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-bold text-slate-800">Medical Report Analyzer</h1>
         <p className="text-slate-500 mt-3 max-w-2xl mx-auto">
@@ -60,11 +57,11 @@ export default function ReportAnalyzer() {
         <div className="glass-card p-10 flex flex-col items-center justify-center text-center border-dashed border-2 border-slate-300 hover:border-blue-500 transition-colors cursor-pointer group"
              onClick={() => document.getElementById("file-upload")?.click()}>
           <input 
-            id="file-upload" 
-            type="file" 
-            className="hidden" 
-            onChange={(e) => e.target.files && setFile(e.target.files[0])}
-            accept=".pdf,.jpg,.jpeg,.png"
+             id="file-upload" 
+             type="file" 
+             className="hidden" 
+             onChange={(e) => e.target.files && setFile(e.target.files[0])}
+             accept=".pdf,.jpg,.jpeg,.png"
           />
           <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
             <UploadCloud size={32} className="text-blue-500" />
@@ -72,7 +69,7 @@ export default function ReportAnalyzer() {
           <h3 className="text-xl font-bold text-slate-700 mb-2">
             {file ? file.name : "Click to upload report"}
           </h3>
-          <p className="text-slate-500 text-sm">Supports JPG, PNG up to 10MB</p>
+          <p className="text-slate-500 text-sm">Supports PDF, JPG, PNG up to 10MB</p>
           
           {file && (
             <button 
@@ -100,7 +97,7 @@ export default function ReportAnalyzer() {
                 {result.summary}
               </p>
               <div className="space-y-4">
-                {result.hormones.map((item: {name: string, value: string, status: string, desc: string}, i: number) => (
+                {result.hormones.map((item, i) => (
                   <div key={i} className="bg-white/40 p-4 rounded-xl border border-white shadow-sm flex items-start gap-4">
                     <div className="mt-1">
                       {item.status === "normal" 

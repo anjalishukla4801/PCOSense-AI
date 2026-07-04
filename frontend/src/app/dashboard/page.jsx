@@ -18,7 +18,7 @@ const cycleData = [
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
@@ -41,7 +41,7 @@ export default function Dashboard() {
     }
   }, [user]);
 
-  const handleSaveProfile = async (e: React.FormEvent) => {
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
     if (user) {
       setLoading(true);
@@ -62,7 +62,7 @@ export default function Dashboard() {
 
   if (!profile) {
     return (
-      <div className="flex-1 p-8 pt-8 max-w-2xl mx-auto w-full animate-fade-in">
+      <div className="flex-1 p-8 pt-32 max-w-2xl mx-auto w-full animate-fade-in">
         <div className="glass-card p-8 rounded-3xl border border-white/40 shadow-xl bg-white/60 backdrop-blur-md">
           <h1 className="text-3xl font-bold text-slate-800 mb-2">Welcome to PCOSense AI ✨</h1>
           <p className="text-slate-500 mb-8">Before we prepare your dashboard, let's personalize your health insights.</p>
@@ -176,8 +176,8 @@ export default function Dashboard() {
               <TrendingUp className="text-blue-500" /> Cycle Trends
             </h2>
           </div>
-          <div className="h-[300px] w-full min-h-[300px]">
-            <ResponsiveContainer width="100%" height="100%" minHeight={300} minWidth={0}>
+          <div className="h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={cycleData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorDays" x1="0" y1="0" x2="0" y2="1">
@@ -227,7 +227,7 @@ export default function Dashboard() {
   );
 }
 
-function ScoreCard({ title, value, trend, icon, color }: { title: string, value: string, trend: string, icon: React.ReactNode, color: string }) {
+function ScoreCard({ title, value, trend, icon, color }) {
   return (
     <div className={`glass-card p-6 ${color} relative overflow-hidden group`}>
       <div className="flex justify-between items-start mb-4">
@@ -245,7 +245,7 @@ function ScoreCard({ title, value, trend, icon, color }: { title: string, value:
   );
 }
 
-function InsightItem({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
+function InsightItem({ icon, title, desc }) {
   return (
     <div className="flex gap-4 items-start p-3 rounded-xl hover:bg-white/40 transition-colors border border-transparent hover:border-white/50 cursor-pointer">
       <div className="mt-1 p-2 bg-white rounded-lg shadow-sm">{icon}</div>

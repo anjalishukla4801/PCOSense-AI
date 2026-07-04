@@ -13,7 +13,7 @@ export default function SignupPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       return setError("Passwords do not match");
@@ -22,7 +22,7 @@ export default function SignupPage() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
-    } catch (err: any) {
+    } catch (err) {
       setError(err.message || "Failed to create account.");
     }
   };

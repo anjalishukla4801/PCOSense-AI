@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Send, Bot, User, Mic, Loader2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { database } from "@/lib/firebase";
-import { ref, get, set, push } from "firebase/database";
+import { ref, get, set } from "firebase/database";
 
 export default function ChatAssistant() {
   const { user } = useAuth();
@@ -41,7 +41,7 @@ export default function ChatAssistant() {
       return;
     }
     
-    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+    const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
     const recognition = new SpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
@@ -51,7 +51,7 @@ export default function ChatAssistant() {
     recognition.onend = () => setIsListening(false);
     recognition.onerror = () => setIsListening(false);
 
-    recognition.onresult = (event: { results: Array<Array<{ transcript: string }>> }) => {
+    recognition.onresult = (event) => {
       const { transcript } = event.results[0][0];
       setInput(prev => (prev + " " + transcript).trim());
     };
@@ -70,14 +70,11 @@ export default function ChatAssistant() {
 
     try {
       // Connect to FastAPI backend
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/chat`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: updatedMessages })
-        }
-      );
+      const response = await fetch("http://localhost:8001/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updatedMessages })
+      });
       const data = await response.json();
       
       if (!response.ok || !data.reply) {
@@ -93,7 +90,7 @@ export default function ChatAssistant() {
   };
 
   return (
-    <div className="flex-1 flex flex-col pt-8 p-4 md:p-8 max-w-4xl mx-auto w-full h-screen bg-transparent">
+    <div className="flex-1 flex flex-col pt-32 p-4 md:p-8 max-w-4xl mx-auto w-full h-screen bg-transparent">
       <header className="mb-6">
         <h1 className="text-3xl font-bold flex items-center text-slate-800 gap-3">
           <Bot size={32} className="text-blue-500" />
