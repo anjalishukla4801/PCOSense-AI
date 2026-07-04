@@ -70,11 +70,14 @@ export default function ChatAssistant() {
 
     try {
       // Connect to FastAPI backend
-      const response = await fetch("http://localhost:8001/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updatedMessages })
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/chat`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: updatedMessages })
+        }
+      );
       const data = await response.json();
       
       if (!response.ok || !data.reply) {
@@ -90,7 +93,7 @@ export default function ChatAssistant() {
   };
 
   return (
-    <div className="flex-1 flex flex-col pt-32 p-4 md:p-8 max-w-4xl mx-auto w-full h-screen bg-transparent">
+    <div className="flex-1 flex flex-col pt-8 p-4 md:p-8 max-w-4xl mx-auto w-full h-screen bg-transparent">
       <header className="mb-6">
         <h1 className="text-3xl font-bold flex items-center text-slate-800 gap-3">
           <Bot size={32} className="text-blue-500" />

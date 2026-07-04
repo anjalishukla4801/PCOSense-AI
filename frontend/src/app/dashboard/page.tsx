@@ -62,7 +62,7 @@ export default function Dashboard() {
 
   if (!profile) {
     return (
-      <div className="flex-1 p-8 pt-32 max-w-2xl mx-auto w-full animate-fade-in">
+      <div className="flex-1 p-8 pt-8 max-w-2xl mx-auto w-full animate-fade-in">
         <div className="glass-card p-8 rounded-3xl border border-white/40 shadow-xl bg-white/60 backdrop-blur-md">
           <h1 className="text-3xl font-bold text-slate-800 mb-2">Welcome to PCOSense AI ✨</h1>
           <p className="text-slate-500 mb-8">Before we prepare your dashboard, let's personalize your health insights.</p>
@@ -176,8 +176,8 @@ export default function Dashboard() {
               <TrendingUp className="text-blue-500" /> Cycle Trends
             </h2>
           </div>
-          <div className="h-72 w-full">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="h-[300px] w-full min-h-[300px]">
+            <ResponsiveContainer width="100%" height="100%" minHeight={300} minWidth={0}>
               <AreaChart data={cycleData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorDays" x1="0" y1="0" x2="0" y2="1">
