@@ -1,2 +1,10 @@
 .env
 .env.local
+__pycache__/
+*.pyc
+venv/
+.venv/
+.next/
+node_modules/
+dist/
+build/
