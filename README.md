@@ -60,26 +60,3 @@ npm run dev
 
 ---
 
-## 🤖 For AI Agents & Developers (Context Guide)
-If you are an AI assistant or a new developer modifying this codebase, please adhere to these strict architectural rules established for this hackathon project:
-
-### 1. Port Mapping & Network Architecture
-- **Frontend** runs on `localhost:3000`.
-- **Backend MUST run on `localhost:8001`**. Do NOT change this to `8000`. We explicitly migrated to `8001` because of known port collisions (`[Errno 48]`) with other localized workspaces. Frontend `fetch` calls are hardcoded to `8001`.
-
-### 2. The Fallback Pattern (CRITICAL)
-Both the `analyze-report` (OCR) and `chat` endpoints contain **Simulated Demo Logic (Fallbacks)**. 
-- If `pytesseract` is not installed on the host machine, or if `OPENAI_API_KEY` is missing/exhausted, the backend gracefully catches the exception and returns hardcoded, realistic demo data (simulated latency via `time.sleep()`). 
-- **DO NOT remove the fallback blocks**. They are safety nets to ensure the app never crashes during a live hackathon pitch.
-
-### 3. State Management & Session Memory
-- The backend API is **stateless**. Session memory is implemented entirely via the frontend sending the *full conversation history* array (`messages: List[ChatMessage]`) to the `/api/chat` endpoint on every request. 
-- Do not attempt to add `ConversationBufferMemory` or local database storage to the FastAPI layer for session management without consulting the user.
-
-### 4. System Prompt Integrity
-The `System Prompt` in `backend/main.py` is specifically aligned with the team's Pitch Deck (Slide 05 & 06). It explicitly enforces a 4-step pipeline: `Listen ➔ Extract ➔ Educate ➔ Guide`, along with strict medical guardrails (no diagnosing). Do not generalize or weaken this prompt.
-
-### 5. API Keys
-- `OPENAI_API_KEY` goes in `backend/.env`.
-- Firebase keys (e.g., `NEXT_PUBLIC_FIREBASE_API_KEY`) go in `frontend/.env.local`. 
-- Voice Input utilizes the browser-native `Web Speech API` (via `window.webkitSpeechRecognition`) which does not require a third-party key.
